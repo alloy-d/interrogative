@@ -17,8 +17,11 @@ Jeweler::Tasks.new do |gem|
   gem.name = "interrogative"
   gem.homepage = "http://github.com/alloy-d/interrogative"
   gem.license = "MIT"
-  gem.summary = %Q{Forms with class.}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{A mixin for curious classes.}
+  gem.description = <<-EOD
+    A simple interface for keeping track of HTML-form-like questions without 
+    feeling like you're accomodating HTML forms.
+  EOD
   gem.email = "alloyd@jibe.com"
   gem.authors = ["Adam Lloyd"]
   # dependencies defined in Gemfile
