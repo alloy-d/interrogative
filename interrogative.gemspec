@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adam Lloyd"]
   s.date = "2012-02-13"
-  s.description = "TODO: longer description of your gem"
+  s.description = "    A simple interface for keeping track of HTML-form-like questions without \n    feeling like you're accomodating HTML forms.\n"
   s.email = "alloyd@jibe.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "VERSION",
+    "interrogative.gemspec",
     "lib/interrogative.rb",
     "lib/interrogative/question.rb",
     "test/interrogative_test.rb",
@@ -34,7 +35,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.15"
-  s.summary = "Forms with class."
+  s.summary = "A mixin for curious classes."
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
