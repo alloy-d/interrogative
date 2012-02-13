@@ -52,6 +52,7 @@ module Interrogative
 
       o = options
       h[:options] = o if not o.nil?
+      return h
     end
 
     # Returns a JSON object created from the question's hash
@@ -59,8 +60,8 @@ module Interrogative
     #
     # @return [String]
     # @see #to_hash
-    def to_json
-      self.to_hash.to_json
+    def to_json(opts={})
+      self.to_hash.to_json(opts)
     end
   end
 end
