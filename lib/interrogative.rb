@@ -7,6 +7,11 @@ module Interrogative
   # @return [Array<Question>] array of all noted questions.
   def questions; @_questions; end
 
+  # Get the array of question postprocessors.
+  #
+  # @return [Array<Proc>] array of all registered postprocessors.
+  def _question_postprocessors; @_question_postprocessors; end
+
   # Give instructions for dealing with new questions.
   #
   # @param [Proc] postprocessor a block to run after adding a question;
@@ -30,8 +35,8 @@ module Interrogative
     q = Question.new(name, text, self, attrs)
     (@_questions||=[]) << q
     
-    unless @_question_postprocessors.nil?
-      @_question_postprocessors.each do |postprocessor|
+    unless _question_postprocessors.nil?
+      _question_postprocessors.each do |postprocessor|
         postprocessor.call(q)
       end
     end
