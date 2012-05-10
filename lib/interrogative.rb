@@ -2,20 +2,9 @@ require 'interrogative/question'
 
 # A mixin for curious classes.
 module Interrogative
-  module Methods
-    # Get the array of all noted questions.
-    #
-    # @return [Array<Question>] array of all noted questions.
-    def questions
-      questions = []
-      questions |= superclass.questions rescue []
-      questions |= self.class.questions if self.class.respond_to? :questions
-      if self.class.respond_to? :questions
-        questions |= self.class.questions
-      end
-      questions | (@_questions||=[])
-    end
 
+  # Methods applicable on both the class and instance levels.
+  module BaseMethods
     # Give instructions for dealing with new questions.
     #
     # @param [Proc] postprocessor a block to run after adding a question;
@@ -49,10 +38,41 @@ module Interrogative
     end
   end
 
+  # Methods tailored to the class level.
+  #
+  # These handle inheritance of questions.
+  module ClassMethods
+    include BaseMethods
+
+    # Get the array of all noted questions.
+    #
+    # @return [Array<Question>] array of all noted questions.
+    def questions
+      qs = []
+      qs |= superclass.questions if superclass.respond_to? :questions
+      qs |= (@_questions||=[])
+      qs
+    end
+  end
+
+  # Methods tailored to the instance level.
+  #
+  # These handle getting questions from the class level.
+  module InstanceMethods
+    include BaseMethods
+
+    def questions
+      qs = []
+      qs |= self.class.questions if self.class.respond_to? :questions
+      qs |= (@_questions||=[])
+      qs
+    end
+  end
+
   def self.included(base)
-    base.extend(Interrogative::Methods)
+    base.extend(Interrogative::ClassMethods)
     base.instance_eval do
-      include Interrogative::Methods
+      include Interrogative::InstanceMethods
     end
   end
 end
