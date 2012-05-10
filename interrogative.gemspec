@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "interrogative"
-  s.version = "0.1.2"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adam Lloyd"]
-  s.date = "2012-02-17"
+  s.date = "2012-05-10"
   s.description = "    A simple interface for keeping track of HTML-form-like questions without \n    feeling like you're accomodating HTML forms.\n"
   s.email = "alloyd@jibe.com"
   s.extra_rdoc_files = [
