@@ -9,7 +9,7 @@ module Interrogative
   # betraying the fact that it's meant to transform into an HTML form
   # element.
   class Question
-    attr_accessor :name, :text, :attrs
+    attr_accessor :name, :text, :attrs, :instance
 
     # @see Interrogative#question
     def initialize(name, text, owner=nil, attrs={}, &instance_block)
@@ -17,7 +17,16 @@ module Interrogative
       @text = text or raise ArgumentError, "A question must have a label."
       @owner = owner
       @attrs = attrs
+      @instance = nil
       @instance_block = instance_block
+    end
+
+    # Returns a copy of this question that is bound to some object.
+    #
+    # This object will be used as the instance on which the `instance_block`,
+    # if provided, is `instance_eval`ed.
+    def for_instance(instance)
+      self.clone.tap{|q| q.instance = instance }
     end
 
     # Possible answers for the question.
@@ -35,10 +44,10 @@ module Interrogative
     # In the case of a Hash, the format should be `{ text => value }`.
     #
     # @return [Array, Hash] the possible answers for the question.
-    def options(instance=nil)
+    def options
       if (@instance_block)
-        if not instance.nil?
-          return instance.instance_eval &@instance_block
+        if not @instance.nil?
+          return @instance.instance_eval &@instance_block
         else
           return @instance_block.call
         end
@@ -52,26 +61,19 @@ module Interrogative
       end
     end
 
-    # Equivalent to calling `hash_for_instance` without an instance.
-    #
-    # @see #hash_for_instance
-    def to_hash
-      hash_for_instance(nil)
-    end
-
     # Returns a hash representation of the question.
     #
     # Attributes are merged into the top level, along with `:text` and
     # `:name`. Possible options are nested under `:options`.
     #
     # @return [Hash]
-    def hash_for_instance(instance=nil)
+    def to_hash
       h = @attrs.merge({
         :text => text,
         :name => name,
       })
 
-      o = options(instance)
+      o = options
       h[:options] = o if not o.nil?
       return h
     end
@@ -80,14 +82,7 @@ module Interrogative
     # representation.
     #
     # @return [String]
-    # @see #hash_for_instance
-    def json_for_instance(instance=nil, opts={})
-      self.hash_for_instance(instance).to_json(opts)
-    end
-
-    # Equivalent to calling `json_for_instance` without an instance.
-    #
-    # @see #json_for_instance
+    # @see #to_hash
     def to_json(opts={})
       self.to_hash.to_json(opts)
     end
