@@ -13,6 +13,19 @@ module Interrogative
       (@_question_postprocessors||=[]) << postprocessor
     end
 
+    # Run the defined postprocessors on the given question.
+    #
+    # Useful when you need to postprocess questions at a higher level.
+    #
+    # @param [Question] the Question.
+    def postprocess_question(question)
+      unless @_question_postprocessors.nil?
+        @_question_postprocessors.each do |postprocessor|
+          postprocessor.call(question)
+        end
+      end
+    end
+
     # Give a new question.
     #
     # @param [Symbol, String] name the name (think <input name=...>) of
@@ -28,11 +41,7 @@ module Interrogative
       q = Question.new(name, text, self, attrs)
       (@_questions||=[]) << q
       
-      unless @_question_postprocessors.nil?
-        @_question_postprocessors.each do |postprocessor|
-          postprocessor.call(q)
-        end
-      end
+      postprocess_question(q)
 
       return q
     end
