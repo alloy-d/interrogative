@@ -37,8 +37,8 @@ module Interrogative
     # @option attrs [Boolean] :multiple whether the question could have
     #   multiple answers.
     # @return [Question] the new Question.
-    def question(name, text, attrs={})
-      q = Question.new(name, text, self, attrs)
+    def question(name, text, attrs={}, &instance_block)
+      q = Question.new(name, text, self, attrs, &instance_block)
       (@_questions||=[]) << q
       
       postprocess_question(q)
@@ -56,7 +56,7 @@ module Interrogative
     # Get the array of all noted questions.
     #
     # @return [Array<Question>] array of all noted questions.
-    def questions
+    def questions(instance=nil)
       qs = []
       qs |= superclass.questions if superclass.respond_to? :questions
       qs |= (@_questions||=[])
@@ -72,7 +72,7 @@ module Interrogative
 
     def questions
       qs = []
-      qs |= self.class.questions if self.class.respond_to? :questions
+      qs |= self.class.questions(self) if self.class.respond_to? :questions
       qs |= (@_questions||=[])
       qs
     end
