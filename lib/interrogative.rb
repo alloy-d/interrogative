@@ -80,7 +80,7 @@ module Interrogative
 
   def self.included(base)
     base.extend(Interrogative::ClassMethods)
-    base.instance_eval do
+    base.class_eval do
       include Interrogative::InstanceMethods
     end
   end
