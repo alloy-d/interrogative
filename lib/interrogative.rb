@@ -10,7 +10,7 @@ module Interrogative
     # @param [Proc] postprocessor a block to run after adding a question;
     #                             the question is given as the argument.
     def when_questioned(&postprocessor)
-      (@_question_postprocessors||=[]) << postprocessor
+      (@_question_postprocessors||=[]) << postprocessor unless postprocessor.nil?
     end
 
     # Run the defined postprocessors on the given question.
