@@ -21,6 +21,15 @@ module Interrogative
       @instance_block = instance_block
     end
 
+    # Return a copy of this question, deep copying fields where appropriate.
+    #
+    # Currently, the only field that is deep copied is `attrs`.
+    def clone
+      q = super
+      q.attrs = self.attrs.clone
+      return q
+    end
+
     # Returns a copy of this question that is bound to some object.
     #
     # This object will be used as the instance on which the `instance_block`,
