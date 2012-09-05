@@ -49,10 +49,10 @@ module Interrogative
     # responds to a method called `#{ name }_options`; otherwise, it
     # returns the result of calling that method.
     #
-    # Options should be either an Array or a Hash.
-    # In the case of a Hash, the format should be `{ text => value }`.
+    # Options should be an array. It can either be an array of strings or an
+    # array of hashes with `:text` and `:value` keys.
     #
-    # @return [Array, Hash] the possible answers for the question.
+    # @return [Array] the possible answers for the question.
     def options
       if (@instance_block)
         if not @instance.nil?
@@ -97,4 +97,3 @@ module Interrogative
     end
   end
 end
-
